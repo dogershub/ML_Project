@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardio Insight</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Additional styling for a seamless appearance */
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .container-fluid {
+            height: 100%;
+            display: flex;
+            align-items: stretch;
+        }
+
+        .col {
+            flex: 1;
+        }
+
+        .scrollable-div {
+            overflow: auto;
+            padding: 30px;
+        }
+
+        /* Thin scrollbar styling for WebKit browsers (Chrome, Safari) */
+        .scrollable-div::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .scrollable-div::-webkit-scrollbar-thumb {
+            background-color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <!-- Form Panel -->
+    <div class="scrollable-div">
+
+      <form action="{{ url_for('predict_heart_disease')}}" method="post">
+
+         <div class="card">
+            <div class="card-body">
+               <h5 class="card-title">Personal Information</h5>
+
+               <div class="mb-3">
+                  <label for="name" class="form-label form-label">Name</label>
+                  <input type="text" id="name" name="name" required="required" class="form-control form-control"/>
+               </div>
+
+               <div class="mb-3 ">
+                  <label for="age" class="form-label form-label">Age Category</label>
+                  <select class="form-select form-control" id="age" name="age" aria-label=".form-select example">
+                     <option selected>Select Answer</option>
+                     <option value="age18to24">18 to 24</option>
+                     <option value="age25to29">25 to 29</option>
+                     <option value="age30to34">30 to 34</option>
+                     <option value="age35to39">35 to 39</option>
+                     <option value="age40to44">40 to 44</option>
+                     <option value="age45to49">45 to 49</option>
+                     <option value="age50to54">50 to 54</option>
+                     <option value="age55to59">50 to 59</option>
+                     <option value="age60to64">60 to 64</option>
+                     <option value="age65to69">65 to 69</option>
+                     <option value="age70to74">70 to 74</option>
+                     <option value="age75to79">75 to 79</option>
+                     <option value="age80andolder">80 and older</option>
+                  </select>
+               </div>
+
+               <div class="mb-3">
+                  <label for="sex">Sex</label>
+                  <select class="form-select form-control" id="sex" name="sex"  aria-label=".form-select example">
+                     <option selected>Select Answer</option>
+                     <option value="female">Female</option>
+                     <option value="male">Male</option>
+                  </select>
+               </div>
+
+               <div class="mb-3">
+                  <label for="weight" class="form-label form-label">Weight (in kilograms)</label>
+                  <input type="text" id="weight" name="weight" required="required" class="form-control form-control"/>
+               </div>
+               
+               <div class="mb-3">
+                  <label for="height" class="form-label form-label">Height (in meters)</label>
+                  <input type="text" id="height" name="height" required="required" class="form-control form-control"/>
+               </div>
+               <br/>
+               <h5 class="card-title">Medical History</h5>
+               
+               <div class="mb-3">
+                  <label for="generalhealth">How would you describe your overall health?</label>
+                  <select class="form-select form-control" id="generalhealth" name="generalhealth" aria-label=".form-select example">
+                     <option selected>Select Answer</option>
+                     <option value="poor">Poor</option>
+                     <option value="fair">Fair</option>
+                     <option value="good">Good</option>
+                     <option value="verygood">Very Good</option>
+                     <option value="excellent">Excellent</option>
+                  </select>
+               </div>
+
+               <div class="mb-3">
+                  <label for="sleephours" class="form-label form-label">How many hours do you sleep per night?</label>
+                  <input type="text" id="sleephours" name="sleephours" required="required" class="form-control form-control"/>
+               </div>
+
+               <div class="mb-3">
+                  <label for="smokerstatus">Are you a smoker?</label>
+                  <select class="form-select form-control" id="smokerstatus" name="smokerstatus" aria-label=".form-select example">
+                     <option selected>Select Answer</option>
+                     <option value="currentsmoker">Current Smoker</option>
+                     <option value="formersmoker">Former Smoker</option>
+                     <option value="neversmoked">Never Smoked</option>
+                  </select>
+               </div>
+
+               <div class="mb-3">
+                  <label for="alcoholdrinker">Are you an alcoholic drinker?</label>
+                  <select class="form-select form-control" id="alcoholdrinker" name="alcoholdrinker" aria-label=".form-select example">
+                     <option selected>Select Answer</option>
+                     <option value="yes">Yes</option>
+                     <option value="no">No</option>
+                  </select>
+               </div>
+
+               <div class="mb-3">
+                  <label for="diabetes">Have you ever had diabetes?</label>
+                  <select class="form-select form-control" id="diabetes" name="diabetes" aria-label=".form-select example">
+                     <option selected>Select Answer</option>
+                     <option value="yes">Yes</option>
+                     <option value="no">No</option>
+                  </select>
+               </div>
+
+               <div class="mb-3">
+                  <label for="stroke">Have you ever had stroke?</label>
+                  <select class="form-select form-control" id="stroke" name="stroke" aria-label=".form-select example">
+                     <option selected>Select Answer</option>
+                     <option value="yes">Yes</option>
+                     <option value="no">No</option>
+                  </select>
+               </div>
+
+               <div class="mb-3">
+                  <label for="kidneydisease">Have you ever had kidney disease?</label>
+                  <select class="form-select form-control" id="kidneydisease" name="kidneydisease" aria-label=".form-select example">
+                     <option selected>Select Answer</option>
+                     <option value="yes">Yes</option>
+                     <option value="no">No</option>
+                  </select>
+               </div>
+
+               <div class="mb-3">
+                  <label for="asthma">Have you ever had asthma?</label>
+                  <select class="form-select form-control" id="asthma" name="asthma" aria-label=".form-select example">
+                     <option selected>Select Answer</option>
+                     <option value="yes">Yes</option>
+                     <option value="no">No</option>
+                  </select>
+               </div>
+
+               <div class="mb-3">
+                  <label for="cancer">Have you ever had skin cancer?</label>
+                  <select class="form-select form-control" id="cancer" name="cancer" aria-label=".form-select example">
+                     <option selected>Select Answer</option>
+                     <option value="yes">Yes</option>
+                     <option value="no">No</option>
+                  </select>
+               </div>
+
+               <div class="mb-3">
+                  <label for="phyactive">Are you physically active in any sports?</label>
+                  <select class="form-select form-control" id="phyactive" name="phyactive" aria-label=".form-select example">
+                     <option selected>Select Answer</option>
+                     <option value="yes">Yes</option>
+                     <option value="no">No</option>
+                  </select>
+               </div>
+
+               <div class="mb-3">
+                  <label for="diffwalking">Do you experience difficulty with walking?</label>
+                  <select class="form-select form-control" id="diffwalking" name="diffwalking" aria-label=".form-select example">
+                     <option selected>Select Answer</option>
+                     <option value="yes">Yes</option>
+                     <option value="no">No</option>
+                  </select>
+               </div>
+               <br/>
+               <div class="d-grid gap-2">
+                  <button type="submit" class="btn btn-primary btn-block btn">Predict</button>
+               </div>
+
+            </div>
+         </div>
+      </form>
+    </div>
+
+    <!-- Plain Text Panel -->
+    <div class="col">
+      <div style="padding: 30px; text-align: right;">
+         <img src="https://prnewswire2-a.akamaihd.net/p/1893751/sp/189375100/thumbnail/entry_id/0_do3wqqc5/def_height/2700/def_width/2700/version/100012/type/1" alt="Cardio Insight" width="300" height="60">
+      </div>
+
+      <div style="padding:30px 30px;">
+         {% if img %}
+            <h4>{{name}}</h4>
+            <p class="lead">{{message}}</p>
+            <img src="{{img}}" alt="Image Result" height="500" style="margin-left: calc(50% - 150px)"/>
+         {% else %}
+            <h4>
+               Concerned about the health of your heart? Look no further – our Heart Disease Prediction Application is here to provide you with valuable insights!
+            </h4>
+            <br/>
+            <p class="lead">Here's how you can predict your heart disease status:</p>
+            <ol class="list-unstyled">
+               <li>Enter relevant parameters that accurately describe you.</li>
+               <li>Press the "Predict" button and await your personalized result.</li>
+            </ol>
+            <br/>
+            <p class="lead">It's crucial to note that while this tool offers valuable insights, it does not replace a medical diagnosis. Our model, though effective, does not meet the rigorous standards of healthcare facilities. 
+               Therefore, for any health concerns, we strongly advise consulting with a qualified medical professional.</p>
+            <br/>
+         {% endif %}
+      </div>
+    </div>
+</div>
+
+<!-- Add Bootstrap JS and Popper.js if needed -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
